@@ -8,8 +8,8 @@
     <version>0.1</version>
     <packaging>jar</packaging>
 
-    <name>parts</name>
-    <description>Parts-list</description>
+    <name>parts-list</name>
+    <description>parts-list</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
