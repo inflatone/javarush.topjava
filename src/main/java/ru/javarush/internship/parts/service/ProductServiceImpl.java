@@ -25,8 +25,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void saveProduct(Product product) {
-        this.repository.save(product);
-
+        //this.repository.save(product);
+        repository.save(product);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(Integer id) {
-        this.repository.deleteById(id);
+        this.repository.delete(id);
     }
 
     @Override
@@ -55,5 +55,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findAllByNecessaryIsTrue() {
         return this.repository.findAllByNecessaryIsTrueOrderByName();
+    }
+
+    @Override
+    public List<Product> findAllByNecessaryIsTrueSorted() {
+        return this.repository.findAllByNecessaryIsTrueOrderByQuantity();
     }
 }

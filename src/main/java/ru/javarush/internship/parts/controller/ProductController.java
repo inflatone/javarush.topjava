@@ -5,10 +5,7 @@ import ru.javarush.internship.parts.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,8 +25,11 @@ public class ProductController {
     @GetMapping("/")
     public String list(Model model) {
         List<Product> products = filterAndSort();
+        int quantity = getQuantity();
+
         model.addAttribute("products", products);
         model.addAttribute("counter", counter);
+        model.addAttribute("quantity", quantity);
 
         return "index";
     }
@@ -45,9 +45,13 @@ public class ProductController {
         return "operations/new";
     }
 
-    @PostMapping("/save")
-    public String updateProduct(@RequestParam String message) {
-        this.service.saveProduct(new Product(message, 0));
+    @PostMapping("/add")
+    public String addProduct(@RequestParam String name,
+                             @RequestParam Integer quantity,
+                             @RequestParam(value = "necessary", required =  false) boolean isNecessary) {
+        Product product = new Product(name, isNecessary, quantity);
+        this.service.saveProduct(product);
+        
         return "redirect:/";
     }
 
@@ -98,5 +102,10 @@ public class ProductController {
 
         }
         return products;
+    }
+
+    private int getQuantity() {
+        List<Product> products = this.service.findAllByNecessaryIsTrueSorted();
+        return products.get(0).getQuantity();
     }
 }

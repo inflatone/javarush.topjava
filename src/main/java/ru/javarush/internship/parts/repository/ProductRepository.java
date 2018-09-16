@@ -9,4 +9,5 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
     List<Product> findAllByOrderByName();
     List<Product> findAllByNecessaryIsFalseOrderByName();
     List<Product> findAllByNecessaryIsTrueOrderByName();
+    List<Product> findAllByNecessaryIsTrueOrderByQuantity();
 }

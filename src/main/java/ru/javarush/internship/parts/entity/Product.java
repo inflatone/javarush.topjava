@@ -3,11 +3,9 @@ package ru.javarush.internship.parts.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "test", schema = "test")
+@Table(name = "part", schema = "test")
 public class Product {
 
-    @Id
-    @GeneratedValue
     private int id;
 
     @Column(name = "name")
@@ -22,14 +20,21 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, int quantity) {
+    public Product(String name, boolean necessary, int quantity) {
         this.name = name;
-        this.necessary = false;
+        this.necessary = necessary;
         this.quantity = quantity;
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
