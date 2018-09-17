@@ -1,5 +1,8 @@
 package ru.javarush.internship.parts.controller;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import ru.javarush.internship.parts.entity.Product;
 import ru.javarush.internship.parts.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ public class ProductController {
 
     private ProductService service;
 
+
     private int counter = 0;
     private boolean activator = false;
     private String findString = "";
@@ -24,13 +28,19 @@ public class ProductController {
     }
 
     @GetMapping("/")
-    public String list(Model model) {
-        List<Product> products = filterAndSort();
+    public String list(Model model, Pageable pageable) {
         int quantity = getQuantity();
 
-        model.addAttribute("products", products);
         model.addAttribute("counter", counter);
         model.addAttribute("quantity", quantity);
+
+        Page<Product> pages = setPagesUp(pageable);
+
+        model.addAttribute("number", pages.getNumber());
+        model.addAttribute("totalPages", pages.getTotalPages());
+        model.addAttribute("totalElements", pages.getTotalElements());
+        model.addAttribute("size", pages.getSize());
+        model.addAttribute("products", pages.getContent());
 
         return "index";
     }
@@ -100,8 +110,26 @@ public class ProductController {
         return "redirect:/";
     }
 
-    private List<Product> filterAndSort() {
-        List<Product> products = null;
+    @GetMapping("/index")
+    public String reset() {
+        this.counter = 0;
+        this.activator = false;
+        return "redirect:/";
+    }
+
+    @GetMapping("/list")
+    public String userList(Model model, Pageable pageable) {
+        Page<Product> pages = service.findAllByOrderByName(pageable);
+        model.addAttribute("number", pages.getNumber());
+        model.addAttribute("totalPages", pages.getTotalPages());
+        model.addAttribute("totalElements", pages.getTotalElements());
+        model.addAttribute("size", pages.getSize());
+        model.addAttribute("products", pages.getContent());
+        return "/user/list";
+    }
+
+    private Page<Product> setPagesUp(Pageable pageable) {
+        Page<Product> pages = null;
 
         if (activator) {
             this.counter = this.counter < 2 ? ++this.counter : 0;
@@ -110,20 +138,19 @@ public class ProductController {
 
         switch (this.counter) {
             case 0 :
-                products = this.service.findAllByOrderByName();
+                pages = this.service.findAllByOrderByName(pageable);
                 break;
             case 1 :
-                products = this.service.findAllByNecessaryIsTrue();
+                pages = this.service.findAllByNecessaryIsTrue(pageable);
                 break;
             case 2 :
-                products = this.service.findAllByNecessaryIsFalse();
+                pages = this.service.findAllByNecessaryIsFalse(pageable);
                 break;
             case 4 :
-                products = this.service.findProductByName(findString);
+                pages = this.service.findProductByName(pageable, findString);
                 break;
-
         }
-        return products;
+        return pages;
     }
 
     private int getQuantity() {

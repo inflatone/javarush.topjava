@@ -1,5 +1,7 @@
 package ru.javarush.internship.parts.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import ru.javarush.internship.parts.repository.ProductRepository;
 import ru.javarush.internship.parts.entity.Product;
 
@@ -43,27 +45,26 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findAllByOrderByName() {
-        return this.repository.findAllByOrderByName();
-    }
-
-    @Override
-    public List<Product> findAllByNecessaryIsFalse() {
-        return this.repository.findAllByNecessaryIsFalseOrderByName();
-    }
-
-    @Override
-    public List<Product> findAllByNecessaryIsTrue() {
-        return this.repository.findAllByNecessaryIsTrueOrderByName();
-    }
-
-    @Override
     public List<Product> findAllByNecessaryIsTrueSorted() {
         return this.repository.findAllByNecessaryIsTrueOrderByQuantity();
     }
+    @Override
+    public Page<Product> findAllByOrderByName(Pageable pageable) {
+        return this.repository.findAllByOrderByName(pageable);
+    }
 
     @Override
-    public List<Product> findProductByName(String name) {
-        return this.repository.findProductsByNameContains(name);
+    public Page<Product> findAllByNecessaryIsFalse(Pageable pageable) {
+        return this.repository.findAllByNecessaryIsFalseOrderByName(pageable);
+    }
+
+    @Override
+    public Page<Product> findAllByNecessaryIsTrue(Pageable pageable) {
+        return this.repository.findAllByNecessaryIsTrueOrderByName(pageable);
+    }
+
+    @Override
+    public Page<Product> findProductByName(Pageable pageable, String name) {
+        return this.repository.findProductsByNameContains(pageable, name);
     }
 }
