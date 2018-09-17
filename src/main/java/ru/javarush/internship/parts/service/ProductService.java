@@ -14,4 +14,5 @@ public interface ProductService {
     List<Product> findAllByNecessaryIsFalse();
     List<Product> findAllByNecessaryIsTrue();
     List<Product> findAllByNecessaryIsTrueSorted();
+    List<Product> findProductByName(String name);
 }

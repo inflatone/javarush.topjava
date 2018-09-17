@@ -16,6 +16,7 @@ public class ProductController {
 
     private int counter = 0;
     private boolean activator = false;
+    private String findString = "";
 
     @Autowired
     public void setProductService(ProductService service) {
@@ -52,6 +53,23 @@ public class ProductController {
         Product product = new Product(name, isNecessary, quantity);
         this.service.saveProduct(product);
 
+        return "redirect:/";
+    }
+
+    @GetMapping("/search")
+    public String searchProduct(Model model) {
+        Product product = new Product();
+        model.addAttribute("product", product);
+        return "operations/search";
+    }
+
+    @PostMapping("/find")
+    public String findName(
+            @RequestParam String name,
+            Model model
+    ) {
+        this.counter = 4;
+        this.findString = name;
         return "redirect:/";
     }
 
@@ -99,6 +117,9 @@ public class ProductController {
                 break;
             case 2 :
                 products = this.service.findAllByNecessaryIsFalse();
+                break;
+            case 4 :
+                products = this.service.findProductByName(findString);
                 break;
 
         }

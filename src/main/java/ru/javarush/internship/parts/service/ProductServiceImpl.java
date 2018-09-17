@@ -61,4 +61,9 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findAllByNecessaryIsTrueSorted() {
         return this.repository.findAllByNecessaryIsTrueOrderByQuantity();
     }
+
+    @Override
+    public List<Product> findProductByName(String name) {
+        return this.repository.findProductsByNameContains(name);
+    }
 }
