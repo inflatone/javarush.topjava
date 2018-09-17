@@ -7,7 +7,7 @@ import java.util.List;
 public interface ProductService {
     Product getProductById(Integer id);
     void saveProduct(Product product);
-    void updateProduct(Integer id, String name, boolean isNecessary);
+    void updateProduct(Integer id, String name, Integer quantity, boolean isNecessary);
     void deleteProduct(Integer id);
 
     List<Product> findAllByOrderByName();

@@ -25,15 +25,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void saveProduct(Product product) {
-        //this.repository.save(product);
-        repository.save(product);
+        this.repository.save(product);
     }
 
     @Override
-    public void updateProduct(Integer id, String name, boolean isNecessary) {
+    public void updateProduct(Integer id, String name, Integer quantity, boolean isNecessary) {
         Product updated = this.repository.getOne(id);
         updated.setNecessary(isNecessary);
         updated.setName(name);
+        updated.setQuantity(quantity);
         this.repository.save(updated);
     }
 

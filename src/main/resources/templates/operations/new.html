@@ -10,11 +10,11 @@
         <form class="form-horizontal" th:action="@{/add}" name="input_form" id="input_form"
               method="post" role="form">
             <div class="form-group">
-                <input type="text" class="form-control" id="name" th:name="name" placeholder="Enter product name." maxlength="100"/>
+                <input type="text" class="form-control" id="name" th:name="name" placeholder="Enter product name:" maxlength="100" style="width: 400px"/>
             </div>
 
             <div class="form-group">
-                <input type="number" value="1" class="form-control" id="quantity" th:name="quantity" placeholder="Enter product quantity." style="width: 10%" />
+                <input type="number" value="1" min="0" class="form-control" id="quantity" th:name="quantity" style="width: 100px" />
             </div>
 
             <div class="form-group">

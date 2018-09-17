@@ -48,10 +48,10 @@ public class ProductController {
     @PostMapping("/add")
     public String addProduct(@RequestParam String name,
                              @RequestParam Integer quantity,
-                             @RequestParam(value = "necessary", required =  false) boolean isNecessary) {
+                             @RequestParam(value = "necessary", required = false) boolean isNecessary) {
         Product product = new Product(name, isNecessary, quantity);
         this.service.saveProduct(product);
-        
+
         return "redirect:/";
     }
 
@@ -61,7 +61,7 @@ public class ProductController {
             Model model
     ) {
         Product product = this.service.getProductById(id);
-        model.addAttribute("note", product);
+        model.addAttribute("product", product);
         return "operations/edit";
     }
 
@@ -69,9 +69,10 @@ public class ProductController {
     public String saveProduct(
             @RequestParam Integer id,
             @RequestParam String name,
-            @RequestParam(value = "done", required = false) boolean isNecessary
+            @RequestParam Integer quantity,
+            @RequestParam(value = "necessary", required = false) boolean isNecessary
     ) {
-        this.service.updateProduct(id, name,isNecessary);
+        this.service.updateProduct(id, name, quantity, isNecessary);
         return "redirect:/";
     }
 

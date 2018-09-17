@@ -5,7 +5,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "part", schema = "test")
 public class Product {
-
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
     private int id;
 
     @Column(name = "name")
@@ -26,9 +28,7 @@ public class Product {
         this.quantity = quantity;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
+
     public int getId() {
         return id;
     }
