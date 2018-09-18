@@ -67,5 +67,41 @@
         </tr>
         </tbody>
     </table>
+
+    <table class="pagination-sm" align="right">
+        <tr>
+
+            <td><a  href="#" class="navbar-brand" th:href="@{'/?page={page}'(page=0)}" style="font-size:16px">&larr; First</a></td>
+
+            <td style="text-align:center" th:if="${number} == 0">
+                <a class="navbar-brand" th:href="@{'/?page={page}'(page=0)}" style="font-size:16px">&laquo;</a>
+            </td>
+
+
+            <td style="text-align:center" th:unless="${number} == 0">
+                <a class="navbar-brand" th:href="@{'/?page={page}'(page=${number}-1)}" style="font-size:16px">&laquo;</a>
+            </td>
+            <td class="nav navbar-nav" style="text-align:center;background-color:#337ab7">
+                <a class="navbar-brand" th:href="@{'/?page={page}'(page=${number})}" style="font-size:16px; color:#ffffff">
+                        <b th:text="${number}+1">Number</b>
+                        <b>/</b>
+                        <b th:text="${totalPages}">Number</b>
+                </a>
+            </td>
+
+            <td style="text-align:center" th:if="${number} == ${totalPages}-1">
+                <a class="navbar-brand" th:href="@{'/?page={page}'(page=${number})}" style="font-size:16px">&raquo;</a>
+            </td>
+
+            <td style="text-align:center" th:unless="${number} == ${totalPages}-1">
+                <a class="navbar-brand" th:href="@{'/?page={page}'(page=${number}+1)}" style="font-size:16px" >&raquo;</a>
+            </td>
+
+
+            <td><a class="navbar-brand" th:href="@{'/?page={page}'(page=${totalPages}-1)}" style="font-size:16px">Last &rarr;</a></td>
+
+        </tr>
+    </table>
+
 </div>
 </html>

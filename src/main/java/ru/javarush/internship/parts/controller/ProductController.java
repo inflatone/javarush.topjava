@@ -3,6 +3,7 @@ package ru.javarush.internship.parts.controller;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import ru.javarush.internship.parts.entity.Product;
 import ru.javarush.internship.parts.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ public class ProductController {
 
     private ProductService service;
 
-
     private int counter = 0;
     private boolean activator = false;
     private String findString = "";
@@ -28,7 +28,7 @@ public class ProductController {
     }
 
     @GetMapping("/")
-    public String list(Model model, Pageable pageable) {
+    public String list(Model model, @PageableDefault(size = 10) Pageable pageable) {
         int quantity = getQuantity();
 
         model.addAttribute("counter", counter);
@@ -41,6 +41,8 @@ public class ProductController {
         model.addAttribute("totalElements", pages.getTotalElements());
         model.addAttribute("size", pages.getSize());
         model.addAttribute("products", pages.getContent());
+
+
 
         return "index";
     }
