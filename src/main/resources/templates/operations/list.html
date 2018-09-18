@@ -41,7 +41,7 @@
         <tbody>
 
         <tr th:if="${#lists.isEmpty(products)}">
-            <td>None. Please, <i th:if="${counter} == 3">return</i><a th:href="@{'/new'}"><i th:if="${counter} == 0">add parts</i></a>.</td>
+            <td>None. Please, <i th:if="${counter} != 0"><a th:href="@{'/index'}">return</a></i><i th:if="${counter} == 0"><a th:href="@{'/new'}">add parts</a></i>.</td>
         </tr>
 
 
