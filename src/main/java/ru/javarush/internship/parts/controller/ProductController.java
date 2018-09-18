@@ -30,19 +30,15 @@ public class ProductController {
     @GetMapping("/")
     public String list(Model model, @PageableDefault(size = 10) Pageable pageable) {
         int quantity = getQuantity();
+        Page<Product> pages = setPagesUp(pageable);
 
         model.addAttribute("counter", counter);
         model.addAttribute("quantity", quantity);
 
-        Page<Product> pages = setPagesUp(pageable);
-
         model.addAttribute("number", pages.getNumber());
         model.addAttribute("totalPages", pages.getTotalPages());
         model.addAttribute("totalElements", pages.getTotalElements());
-        model.addAttribute("size", pages.getSize());
         model.addAttribute("products", pages.getContent());
-
-
 
         return "index";
     }
@@ -69,18 +65,15 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public String searchProduct(Model model) {
-        Product product = new Product();
-        model.addAttribute("product", product);
+    public String searchProduct() {
         return "operations/search";
     }
 
     @PostMapping("/find")
     public String findName(
-            @RequestParam String name,
-            Model model
+            @RequestParam String name
     ) {
-        this.counter = 4;
+        this.counter = 3;
         this.findString = name;
         return "redirect:/";
     }
@@ -148,7 +141,7 @@ public class ProductController {
             case 2 :
                 pages = this.service.findAllByNecessaryIsFalse(pageable);
                 break;
-            case 4 :
+            case 3 :
                 pages = this.service.findProductByName(pageable, findString);
                 break;
         }
@@ -157,6 +150,6 @@ public class ProductController {
 
     private int getQuantity() {
         List<Product> products = this.service.findAllByNecessaryIsTrueSorted();
-        return products.get(0).getQuantity();
+        return products == null || products.size() == 0 ? 0 : products.get(0).getQuantity();
     }
 }
